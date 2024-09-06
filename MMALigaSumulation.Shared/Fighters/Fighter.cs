@@ -1,4 +1,6 @@
-﻿namespace MMALigaSumulation.Shared.Fighters
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MMALigaSumulation.Shared.Fighters
 {
     public class Fighter
     {
@@ -16,10 +18,17 @@
         public int Version { get; set; }
         public bool Retired { get; set; }
         public int CareerStatus { get; set; }
-
+        
+        //Atributos necessarios.
         public required FighterAttributes Attributes { get; set; }
         public required FighterStrategies Strategies { get; set; }
         public required FighterStyles Styles { get; set; }
+
+        //Atributos de Luta (Não armazenam no banco).
+        [NotMapped]
+        public FighterModifiers? Modifiers { get ; set; }
+
+
 
 
     }
