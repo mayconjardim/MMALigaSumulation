@@ -18,6 +18,8 @@
         public int CareerStatus { get; set; }
 
         public required FighterAttributes Attributes { get; set; }
+        public required FighterStrategies Strategies { get; set; }
+
 
     }
 }
