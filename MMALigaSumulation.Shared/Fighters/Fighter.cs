@@ -17,6 +17,7 @@
         public bool Retired { get; set; }
         public int CareerStatus { get; set; }
 
+        public required FighterAttributes Attributes { get; set; }
 
     }
 }
