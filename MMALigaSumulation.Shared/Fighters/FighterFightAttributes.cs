@@ -4,6 +4,7 @@
     {
 
 
+
         public int PainAndTiredness { get; set; }
         public int FearManagement { get; set; }
         public int FightSpirit { get; set; }
@@ -18,6 +19,8 @@
         public double LeftLegInjury { get; set; }
         public double TorsoInjury { get; set; }
 
+        public double DamageMod { get; set; }
+        public double InitMod { get; set; }
         public double AggPower { get; set; }
         public double Defense { get; set; }
         public int CareerStatus { get; set; }
@@ -43,7 +46,6 @@
         public double Moral { get; set; }
 
         // Pontuacão
-
         public int[] RoundStandUpPoints { get; set; } = new int[10];
         public int[] RoundGroundPoints { get; set; } = new int[10];
         public int[] RoundAggPoints { get; set; } = new int[10];
