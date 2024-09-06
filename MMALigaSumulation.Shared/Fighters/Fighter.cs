@@ -19,6 +19,7 @@
 
         public required FighterAttributes Attributes { get; set; }
         public required FighterStrategies Strategies { get; set; }
+        public required FighterStyles Styles { get; set; }
 
 
     }
