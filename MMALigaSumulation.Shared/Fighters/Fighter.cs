@@ -28,8 +28,8 @@ namespace MMALigaSumulation.Shared.Fighters
         [NotMapped]
         public FighterModifiers? Modifiers { get ; set; }
 
-
-
+        [NotMapped]
+        public FighterFightAttributes? FightAttributes { get; set; } 
 
     }
 }
