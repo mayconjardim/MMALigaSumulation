@@ -27,7 +27,6 @@
         public int NumHooks { get; set; }
         public string Side { get; set; } = string.Empty;
         public string Location { get; set; } = string.Empty;
-
         public bool BoutFinished { get; set; }
         public bool RoundFinished { get; set; }
         public string FinishedType { get; set; } = string.Empty;

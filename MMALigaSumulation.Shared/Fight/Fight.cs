@@ -56,8 +56,6 @@ namespace MMALigaSumulation.Shared.Fight
             FightStatistic statistic = new FightStatistic();
             PBP = new List<string>();
             Fighters = [FighterOne, FighterTwo];
-
-
         }
 
     }

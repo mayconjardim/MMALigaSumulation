@@ -68,6 +68,7 @@
         public const int ActClinchDirtyBoxing = 0;
         public const int ActThaiClinch = 1;
         public const int ActSimpleGrappling = 2;
+
     }
 
 }

@@ -3,8 +3,22 @@
     public static class FightMethods
     {
 
+        public static void FightController(this Fight fight)
+        {
+
+            int fighterActive, fighterPassive, fighterAction1, fighterAction2, fighterAction;
+            int timeInc;
+            bool tempInTheClinch;
+            bool fighter1OnTheGround, fighter2OnTheGround;
+            bool f1Ground, f2Ground;
+
+            timeInc = GetDeltaTime();
+
+        }
+
         public static void UpdateDamageDone(this Fight fight, int fighterIndex, double damage, bool clinch, bool ground)
         {
+
             if (!clinch && !ground)
             {
                 fight.Statistics[fighterIndex].DamageDone += damage;
@@ -99,6 +113,16 @@
             fight.Statistics[fighterIndex].TempDamageGround += damage;
             fight.Statistics[fighterIndex].DamageRGround += damage;
             fight.Statistics[fighterIndex].DamageReceived += damage;
+        }
+
+        private static int GetDeltaTime(this Fight fight)
+        {
+            int timeAdvance = ApplicationUtils.TIMEADVANCE;
+            int fixedRandom = ApplicationUtils.GetFixedRandom(timeAdvance);
+            int rushTotal = (fight.Fighters[0].FightAttributes.Rush + fight.Fighters[1].FightAttributes.Rush) / 2;
+            int result = fixedRandom - rushTotal;
+
+            return Math.Max(result, 1);
         }
 
     }
