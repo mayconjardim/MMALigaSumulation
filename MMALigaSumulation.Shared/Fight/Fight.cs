@@ -2,7 +2,7 @@
 
 namespace MMALigaSumulation.Shared.Fight
 {
-    internal class Fight
+    public class Fight
     {
 
         public Fighter[] Fighters { get; set; } = new Fighter[2];
@@ -16,7 +16,7 @@ namespace MMALigaSumulation.Shared.Fight
         public string FightResult { get; set; } = string.Empty;
         public string FightResultType { get; set; } = string.Empty;
         public bool TitleBout { get; set; }
-        public Statistic[] Statistics { get; set; } = new Statistic[2];
+        public string StatisticsJson { get; set; } = string.Empty;
         public bool IsMainEvent { get; set; }
         public bool IsCoMainEvent { get; set; }
         public bool IsPrelimEvent { get; set; }
@@ -27,15 +27,14 @@ namespace MMALigaSumulation.Shared.Fight
         public List<string> PBP { get; set; } = new List<string>();
         public string PBPJson { get; set; } = string.Empty;
         public bool OneSided { get; set; }
-
-        // Substitui os padrões da organização
-        public int NumberRounds { get; set; }
+        public int NumberRounds { get; set; } 
         public bool NoTimeLimits { get; set; }
         public int MinsForRound { get; set; }
         public bool Catchweight { get; set; }
-
-        // Campeão antes de começar a luta (se houver)
         public string CurrentChampion { get; set; } = string.Empty;
+
+        //Atributos da Luta (Não armazenam no banco).
+        public FightStatistic[] Statistics { get; set; } = new FightStatistic[2];
 
     }
 }
