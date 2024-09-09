@@ -36,15 +36,29 @@ namespace MMALigaSumulation.Shared.Fight
 
         //Atributos da Luta (Não armazenam no banco).
         [NotMapped]
-        public FightStatistic[] Statistics { get; set; } = new FightStatistic[2];
+        public FightAttributes? Attributes { get; set; }
 
         [NotMapped]
-        public List<string> PBP { get; set; } = new List<string>();
+        public FightStatistic[]? Statistics { get; set; }
 
         [NotMapped]
-        public Fighter[] Fighters { get; set; } = new Fighter[2];
+        public List<string>? PBP { get; set; }
+
+        [NotMapped]
+        public Fighter[]? Fighters { get; set; }
+
+        //Luta
+        public void FightSim()
+        {
+
+            //Inicia Atributos da Luta
+            FightAttributes atributtes = new FightAttributes();
+            FightStatistic statistic = new FightStatistic();
+            PBP = new List<string>();
+            Fighters = [FighterOne, FighterTwo];
 
 
+        }
 
     }
 }
