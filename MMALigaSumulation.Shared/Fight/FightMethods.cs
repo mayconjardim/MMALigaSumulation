@@ -1,4 +1,5 @@
-﻿using MMALigaSumulation.Shared.FightEngine.Constants;
+﻿using MMALigaSumulation.Shared.FightEngine.Comments;
+using MMALigaSumulation.Shared.FightEngine.Constants;
 using MMALigaSumulation.Shared.FightEngine.Utils;
 
 namespace MMALigaSumulation.Shared.Fight
@@ -25,9 +26,9 @@ namespace MMALigaSumulation.Shared.Fight
                 if (fight.CurrentRound >= fight.GetMaxRounds())
                 {
                     fight.Attributes.BoutFinished = true;
-                    fight.Attributes.FinishedType = ApplicationUtils.Misc[FightConstants.TIMEOUT];
+                    fight.Attributes.FinishedType = ReadTxts.ReadListToComment("Misc", FightConstants.TIMEOUT); 
                     fight.Attributes.FinishMode = FightConstants.RES_TIMEOUT;
-                    fight.Attributes.FinishedDescription = ApplicationUtils.Misc[FightConstants.TIMEOUT];
+                    fight.Attributes.FinishedDescription = ReadTxts.ReadListToComment("Misc", FightConstants.TIMEOUT);
                     FinishRound();
                     JudgeFightRound(3);
 
@@ -158,6 +159,31 @@ namespace MMALigaSumulation.Shared.Fight
             int result = fixedRandom - rushTotal;
 
             return Math.Max(result, 1);
+        }
+
+        public static int GetMaxRounds(this Fight fight)
+        {
+            return fight.NumberRounds > 0 ? fight.NumberRounds : 5;
+        }
+
+        public static int GetMinutesByRound(this Fight fight, int round)
+        {
+            return round == 1 ? fight.GetMinutesFirstRound() : fight.GetMinutesOtherRounds();
+        }
+
+        private static int GetMinutesFirstRound(this Fight fight)
+        {
+            return fight.MinsForRound > 0 ? fight.MinsForRound : 5;
+        }
+
+        private static int GetMinutesOtherRounds(this Fight fight)
+        {
+            return fight.MinsForRound > 0 ? fight.MinsForRound : 5;
+        }
+
+        public static bool GetNoTimeLimits(this Fight fight)
+        {
+            return fight.NoTimeLimits || true;
         }
 
     }
