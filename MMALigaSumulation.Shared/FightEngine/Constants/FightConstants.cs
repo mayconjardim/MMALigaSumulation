@@ -154,6 +154,7 @@
         public const int AVERAGE = 118;
         public const int PROMISING = 119;
         public const int EXCITING = 120;
+
     }
 
 }

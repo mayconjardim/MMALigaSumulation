@@ -1,4 +1,7 @@
-﻿namespace MMALigaSumulation.Shared.Fight
+﻿using MMALigaSumulation.Shared.FightEngine.Constants;
+using MMALigaSumulation.Shared.FightEngine.Utils;
+
+namespace MMALigaSumulation.Shared.Fight
 {
     public static class FightMethods
     {
@@ -12,7 +15,39 @@
             bool fighter1OnTheGround, fighter2OnTheGround;
             bool f1Ground, f2Ground;
 
-            timeInc = GetDeltaTime();
+            timeInc = GetDeltaTime(fight);
+            fight.CurrentTime += timeInc;
+
+            if (!fight.NoTimeLimits && fight.CurrentTime >= fight.GetMinutesByRound(fight.CurrentRound) * 60 && !fight.Attributes.BoutFinished)
+            {
+                fight.Attributes.RoundFinished = true;
+
+                if (fight.CurrentRound >= fight.GetMaxRounds())
+                {
+                    fight.Attributes.BoutFinished = true;
+                    fight.Attributes.FinishedType = ApplicationUtils.Misc[FightConstants.TIMEOUT];
+                    fight.Attributes.FinishMode = FightConstants.RES_TIMEOUT;
+                    fight.Attributes.FinishedDescription = ApplicationUtils.Misc[FightConstants.TIMEOUT];
+                    FinishRound();
+                    JudgeFightRound(3);
+
+                    if (fight.Attributes.FighterWinner == -1 && fight.IsTournament)
+                    {
+                        TournamentTieExtraRound();
+                    }
+                    else
+                    {
+                        FinishFight(fight.Attributes.FighterWinner);
+                    }
+
+                    return;
+                }
+                else
+                {
+                    FinishRound();
+                    return;
+                }
+            }
 
         }
 
@@ -115,10 +150,10 @@
             fight.Statistics[fighterIndex].DamageReceived += damage;
         }
 
-        private static int GetDeltaTime(this Fight fight)
+        private static int GetDeltaTime(Fight fight)
         {
-            int timeAdvance = ApplicationUtils.TIMEADVANCE;
-            int fixedRandom = ApplicationUtils.GetFixedRandom(timeAdvance);
+            int timeAdvance = TweakingConstants.TIMEADVANCE;
+            int fixedRandom = RandomUtils.GetFixedRandom(timeAdvance);
             int rushTotal = (fight.Fighters[0].FightAttributes.Rush + fight.Fighters[1].FightAttributes.Rush) / 2;
             int result = fixedRandom - rushTotal;
 
