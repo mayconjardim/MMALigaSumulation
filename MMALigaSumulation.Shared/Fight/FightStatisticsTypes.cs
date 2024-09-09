@@ -1,14 +1,14 @@
 ﻿namespace MMALigaSumulation.Shared.Fight
 {
-    public enum StatisticsTypes
+    public enum FightStatisticsTypes
     {
-        Punches,
-        Kicks,
-        Clinch,
-        GnP,
-        Submission,
-        Takedowns,
-        Grappling
+        stPunches,
+        stKicks,
+        stClinch,
+        stGnP,
+        stSubmission,
+        stTakedowns,
+        stGrappling
     }
 
 }

@@ -36,5 +36,104 @@ namespace MMALigaSumulation.Shared.Fight
         //Atributos da Luta (Não armazenam no banco).
         public FightStatistic[] Statistics { get; set; } = new FightStatistic[2];
 
+        //Metodos necessarios para a luta
+        public void UpdateDamageDone(int fighterIndex, double damage, bool clinch, bool ground)
+        {
+            if (!clinch && !ground)
+            {
+                Statistics[fighterIndex].DamageDone += damage;
+            }
+            else if (clinch)
+            {
+                IncreaseClinchDamage(damage, fighterIndex);
+            }
+            else if (ground)
+            {
+                IncreaseGroundDamage(damage, fighterIndex);
+            }
+        }
+
+        public void UpdateDamageReceived(int fighterIndex, double damage, bool clinch, bool ground)
+        {
+            if (!clinch && !ground)
+            {
+                Statistics[fighterIndex].DamageReceived += damage;
+            }
+            else if (clinch)
+            {
+                IncreaseRClinchDamage(damage, fighterIndex);
+            }
+            else if (ground)
+            {
+                IncreaseRGroundDamage(damage, fighterIndex);
+            }
+        }
+
+        public void UpdateStatistic(int fighterIndex, FightStatisticsTypes statType, int launched, int landed)
+        {
+            switch (statType)
+            {
+                case FightStatisticsTypes.stPunches:
+                    Statistics[fighterIndex].PunchesLaunched += launched;
+                    Statistics[fighterIndex].PunchesLanded += landed;
+                    break;
+                case FightStatisticsTypes.stKicks:
+                    Statistics[fighterIndex].KicksLaunched += launched;
+                    Statistics[fighterIndex].KicksLanded += landed;
+                    break;
+                case FightStatisticsTypes.stClinch:
+                    Statistics[fighterIndex].ClinchStrLaunches += launched;
+                    Statistics[fighterIndex].ClinchStrLanded += landed;
+                    break;
+                case FightStatisticsTypes.stGnP:
+                    Statistics[fighterIndex].GnPStrLaunched += launched;
+                    Statistics[fighterIndex].GnPStrLanded += landed;
+                    break;
+                case FightStatisticsTypes.stSubmission:
+                    Statistics[fighterIndex].SubmissionsAttemps += launched;
+                    Statistics[fighterIndex].SubmissionsAchieved += landed;
+                    break;
+                case FightStatisticsTypes.stTakedowns:
+                    Statistics[fighterIndex].TakedownsAttemps += launched;
+                    Statistics[fighterIndex].TakedownsAchieved += landed;
+                    break;
+                case FightStatisticsTypes.stGrappling:
+                    Statistics[fighterIndex].GrapplingAttemps += launched;
+                    Statistics[fighterIndex].GrapplingAchieved += landed;
+                    break;
+            }
+        }
+
+        public void UpdateTimeOnGround(int fighterIndex, int timeInc)
+        {
+            Statistics[fighterIndex].TimeOnTheGround += timeInc;
+        }
+
+        private void IncreaseClinchDamage(double damage, int fighterIndex)
+        {
+            Statistics[fighterIndex].DamageClinch += damage;
+            Statistics[fighterIndex].DamageDone += damage;
+        }
+
+        private void IncreaseGroundDamage(double damage, int fighterIndex)
+        {
+            Statistics[fighterIndex].DamageGround += damage;
+            Statistics[fighterIndex].DamageDone += damage;
+        }
+
+        private void IncreaseRClinchDamage(double damage, int fighterIndex)
+        {
+            Statistics[fighterIndex].TempDamageClinch += damage;
+            Statistics[fighterIndex].DamageRClinch += damage;
+            Statistics[fighterIndex].DamageReceived += damage;
+        }
+
+        private void IncreaseRGroundDamage(double damage, int fighterIndex)
+        {
+            Statistics[fighterIndex].TempDamageGround += damage;
+            Statistics[fighterIndex].DamageRGround += damage;
+            Statistics[fighterIndex].DamageReceived += damage;
+        }
+
     }
 }
