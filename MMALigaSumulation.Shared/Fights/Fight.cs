@@ -1,7 +1,7 @@
 ﻿using MMALigaSumulation.Shared.Fighters;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MMALigaSumulation.Shared.Fight
+namespace MMALigaSumulation.Shared.Fights
 {
     public class Fight
     {
@@ -56,6 +56,8 @@ namespace MMALigaSumulation.Shared.Fight
             FightStatistic statistic = new FightStatistic();
             PBP = new List<string>();
             Fighters = [FighterOne, FighterTwo];
+
+
         }
 
     }

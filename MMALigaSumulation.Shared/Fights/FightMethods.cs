@@ -2,7 +2,7 @@
 using MMALigaSumulation.Shared.FightEngine.Constants;
 using MMALigaSumulation.Shared.FightEngine.Utils;
 
-namespace MMALigaSumulation.Shared.Fight
+namespace MMALigaSumulation.Shared.Fights
 {
     public static class FightMethods
     {

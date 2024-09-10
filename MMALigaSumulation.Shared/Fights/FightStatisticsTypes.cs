@@ -1,4 +1,4 @@
-﻿namespace MMALigaSumulation.Shared.Fight
+﻿namespace MMALigaSumulation.Shared.Fights
 {
     public enum FightStatisticsTypes
     {
