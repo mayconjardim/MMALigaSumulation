@@ -1,5 +1,6 @@
 ﻿using MMALigaSumulation.Shared.FightEngine.Comments;
 using MMALigaSumulation.Shared.FightEngine.Constants;
+using MMALigaSumulation.Shared.FightEngine.RoundUtils;
 using MMALigaSumulation.Shared.FightEngine.Utils;
 
 namespace MMALigaSumulation.Shared.Fights
@@ -29,7 +30,7 @@ namespace MMALigaSumulation.Shared.Fights
                     fight.Attributes.FinishedType = ReadTxts.ReadListToComment("Misc", FightConstants.TIMEOUT); 
                     fight.Attributes.FinishMode = FightConstants.RES_TIMEOUT;
                     fight.Attributes.FinishedDescription = ReadTxts.ReadListToComment("Misc", FightConstants.TIMEOUT);
-                    FinishRound();
+                    RoundActions.FinishRound(fight);
                     JudgeFightRound(3);
 
                     if (fight.Attributes.FighterWinner == -1 && fight.IsTournament)

@@ -31,5 +31,9 @@ namespace MMALigaSumulation.Shared.Fighters
         [NotMapped]
         public FighterFightAttributes? FightAttributes { get; set; }
 
+        public string Name()
+        {
+            return FirstName + " " + LastName;
+        }
     }
 }
