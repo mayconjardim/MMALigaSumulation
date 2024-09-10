@@ -46,7 +46,7 @@ namespace MMALigaSumulation.Shared.Fights
                 }
                 else
                 {
-                    FinishRound();
+                    RoundActions.FinishRound(fight);
                     return;
                 }
             }
