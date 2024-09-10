@@ -1,18 +1,21 @@
-﻿using MMALigaSumulation.Shared.Fighters;
+﻿using MMALigaSumulation.Shared.FightEngine.Constants;
+using MMALigaSumulation.Shared.FightEngine.Utils;
+using MMALigaSumulation.Shared.Fighters;
+using MMALigaSumulation.Shared.Fights;
 
 namespace MMALigaSumulation.Shared.FightEngine.RoundUtils
 {
     public static class JudgeActions
     {
 
-        public JudgePerRound JudgeFightRoundWise(Fighter fighter1, Fighter fighter2, int rounds)
+        public static FightJudgePerRound JudgeFightRoundWise(Fighter fighter1, Fighter fighter2, int rounds)
         {
             int[] pointsFighter1 = new int[rounds];
             int[] pointsFighter2 = new int[rounds];
             int totalFighter1 = 0;
             int totalFighter2 = 0;
 
-            JudgePerRound result = new JudgePerRound();
+            FightJudgePerRound result = new FightJudgePerRound();
 
             // Calcula os pontos para cada round
             for (int index = 0; index < rounds; index++)
@@ -21,21 +24,21 @@ namespace MMALigaSumulation.Shared.FightEngine.RoundUtils
                 totalFighter2 = CalculateTotalPoints(fighter2, index);
 
                 int total = totalFighter1 + totalFighter2;
-                int criteria = appUtils.GetBalancedRandom(total) + 1;
+                int criteria = RandomUtils.GetBalancedRandom(total) + 1;
 
                 if (criteria < totalFighter1)
                 {
-                    pointsFighter1[index] = 10 - fighter1.PointsPenalization[index];
-                    pointsFighter2[index] = (totalFighter1 > totalFighter2 * appUtils.EightPointsCriteria)
-                        ? 8 - fighter2.PointsPenalization[index]
-                        : 9 - fighter2.PointsPenalization[index];
+                    pointsFighter1[index] = 10 - fighter1.FightAttributes.PointsPenalization[index];
+                    pointsFighter2[index] = (totalFighter1 > totalFighter2 * TweakingConstants.EIGHTPOINTSCRITERIA)
+                        ? 8 - fighter2.FightAttributes.PointsPenalization[index]
+                        : 9 - fighter2.FightAttributes.PointsPenalization[index];
                 }
                 else
                 {
-                    pointsFighter2[index] = 10 - fighter2.PointsPenalization[index];
-                    pointsFighter1[index] = (totalFighter1 > totalFighter1 * appUtils.EightPointsCriteria)
-                        ? 8 - fighter1.PointsPenalization[index]
-                        : 9 - fighter1.PointsPenalization[index];
+                    pointsFighter2[index] = 10 - fighter2.FightAttributes.PointsPenalization[index];
+                    pointsFighter1[index] = (totalFighter1 > totalFighter1 * TweakingConstants.EIGHTPOINTSCRITERIA)
+                        ? 8 - fighter1.FightAttributes.PointsPenalization[index]
+                        : 9 - fighter1.FightAttributes.PointsPenalization[index];
                 }
             }
 
@@ -49,15 +52,15 @@ namespace MMALigaSumulation.Shared.FightEngine.RoundUtils
             return result;
         }
 
-        private int CalculateTotalPoints(Fighter fighter, int roundIndex)
+        private static int CalculateTotalPoints(Fighter fighter, int roundIndex)
         {
-            return fighter.RoundStandUpPoints[roundIndex] * organization.JudgesStrikingImportance +
-                   fighter.RoundGroundPoints[roundIndex] * organization.JudgesGroundImportance +
-                   fighter.RoundAggPoints[roundIndex] * organization.JudgesAggressivenessImportance +
-                   fighter.RoundTechPoints[roundIndex] * organization.JudgesTechnicalImportance;
+            return fighter.FightAttributes.RoundStandUpPoints[roundIndex] * 7 +
+                   fighter.FightAttributes.RoundGroundPoints[roundIndex] * 5 +
+                   fighter.FightAttributes.RoundAggPoints[roundIndex] * 5 +
+                   fighter.FightAttributes.RoundTechPoints[roundIndex] * 4;
         }
 
-        private string CalculateRoundPoints(int[] points, int rounds, out int totalPoints)
+        private static string CalculateRoundPoints(int[] points, int rounds, out int totalPoints)
         {
             totalPoints = 0;
             string roundPoints = string.Empty;
@@ -69,7 +72,7 @@ namespace MMALigaSumulation.Shared.FightEngine.RoundUtils
             return roundPoints + $": {totalPoints}";
         }
 
-        private int DetermineWinner(int totalFighter1, int totalFighter2)
+        private static int DetermineWinner(int totalFighter1, int totalFighter2)
         {
             if (totalFighter1 > totalFighter2)
             {

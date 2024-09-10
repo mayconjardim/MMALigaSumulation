@@ -1,4 +1,6 @@
-﻿namespace MMALigaSumulation.Shared.FightEngine.Utils
+﻿using System;
+
+namespace MMALigaSumulation.Shared.FightEngine.Utils
 {
     public static class RandomUtils
     {
@@ -30,5 +32,33 @@
             return range + _random.Next(range) + 1;
         }
 
+        public static int GetBalancedRandom(int value)
+        {
+            if (value < 0)
+                return 0;
+
+            int sum = 0;
+            for (int rounds = 5; rounds > 0; rounds--)
+            {
+                sum += _random.Next(value);
+            }
+            return sum / 5;
+        }
+
+        public static int GetBalancedRandom(double value)
+        {
+            if (value < 0)
+                return 0;
+
+            int sum = 0;
+            int roundValue = (int)Math.Round(value);
+            for (int rounds = 5; rounds > 0; rounds--)
+            {
+                sum += _random.Next(roundValue);
+            }
+            return sum / 5;
+        }
     }
+
 }
+
