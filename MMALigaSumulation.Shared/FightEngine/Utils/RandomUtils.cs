@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MMALigaSumulation.Shared.FightEngine.Constants;
+using System;
 
 namespace MMALigaSumulation.Shared.FightEngine.Utils
 {
@@ -58,6 +59,13 @@ namespace MMALigaSumulation.Shared.FightEngine.Utils
             }
             return sum / 5;
         }
+
+        public static int GetSRandom()
+        {
+            Random random = new Random();
+            return random.Next(1, TweakingConstants.SMALLRANDOM + 1);
+        }
+
     }
 
 }

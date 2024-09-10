@@ -31,15 +31,15 @@ namespace MMALigaSumulation.Shared.Fights
                     fight.Attributes.FinishMode = FightConstants.RES_TIMEOUT;
                     fight.Attributes.FinishedDescription = ReadTxts.ReadListToComment("Misc", FightConstants.TIMEOUT);
                     RoundActions.FinishRound(fight);
-                    JudgeFightRound(3);
+                    RoundActions.JudgeFightRound(3, fight);
 
                     if (fight.Attributes.FighterWinner == -1 && fight.IsTournament)
                     {
-                        TournamentTieExtraRound();
+                        RoundActions.TournamentTieExtraRound(fight);
                     }
                     else
                     {
-                        FinishFight(fight.Attributes.FighterWinner);
+                        RoundActions.FinishFight(fight.Attributes.FighterWinner, fight);
                     }
 
                     return;

@@ -132,6 +132,22 @@
             return result;
         }
 
+        public int GetRoundPoints(int round)
+        {
+            if (round <= 0 || round >= RoundAggPoints.Length)
+            {
+                return 0;
+            }
+
+            int result = 0;
+            result += RoundAggPoints[round];
+            result += RoundTechPoints[round];
+            result += RoundStandUpPoints[round];
+            result += RoundGroundPoints[round];
+
+            return result;
+        }
+
         public int TotalPoints()
         {
             int result = 0;

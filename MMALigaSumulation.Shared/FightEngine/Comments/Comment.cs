@@ -5,9 +5,28 @@ using MMALigaSumulation.Shared.Fights;
 
 namespace MMALigaSumulation.Shared.FightEngine.Comments
 {
-    public static class Comments
+    public static class Comment
     {
 
+        private static Random random = new Random();
+
+        public static string ReturnComment(List<string> commentList)
+        {
+            if (commentList == null || commentList.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            string comment = string.Empty;
+            int listSize = commentList.Count;
+
+            while (string.IsNullOrEmpty(comment))
+            {
+                comment = commentList[random.Next(listSize)];
+            }
+
+            return comment;
+        }
 
         public static void DoComment(Fighter act, Fighter pas, string comment, Fight fight, List<string> PBP)
         {

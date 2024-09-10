@@ -7,16 +7,55 @@ namespace MMALigaSumulation.Shared.FightEngine.RoundUtils
     public static class RoundActions
     {
 
+        public static void FinishFight(int winner, Fight fight)
+        {
+            fight.Attributes.BoutFinished = true;
+
+            // Ajusta o tempo atual se ultrapassar o limite por round
+            if (fight.CurrentTime > fight.GetMinutesByRound(fight.CurrentRound) * 60 && !fight.NoTimeLimits)
+            {
+                fight.CurrentTime = fight.GetMinutesByRound(fight.CurrentRound) * 60;
+            }
+
+            fight.Winner = winner;
+            int loser;
+            string winningSentence;
+
+            if (winner != -1)
+            {
+                loser = winner == 1 ? 0 : 1;
+                winningSentence = Comment.ReturnComment(ReadTxts.ReadFileToList("Winner"));
+            }
+            else
+            {
+                winner = 0; 
+                loser = 1;
+                winningSentence = Comment.ReturnComment(ReadTxts.ReadFileToList("ResDraw"));
+            }
+
+            Comment.DoComment(fight.Fighters[winner], fight.Fighters[loser], winningSentence, fight, fight.PBP);
+
+            //FightHistory.Add(fight);
+            ColorComments.MakeUpsetComment(fight.Fighters[winner], fight.Fighters[loser], fight);
+            //CheckChampion(fight.Fighters[winner], fight.Fighters[loser]);
+
+            fight.FightResult = Comment.ReplaceTokens(fight.Fighters[winner], fight.Fighters[loser], winningSentence, fight);
+            fight.FightResultType = fight.Attributes.FinishedType;
+            fight.Fighters[0] = fight.Fighters[0];
+            fight.Fighters[1] = fight.Fighters[1];
+
+        }
+
         public static void FinishRound(Fight fight)
         {
 
-            string endRoundComment = applicationUtils.EndRoundComment();
-            DoComment(fight.Fighters[0], fight.Fighters[1], endRoundComment);
-            MakeEndRoundComment();
+            string endRoundComment = Comment.ReturnComment(ReadTxts.ReadFileToList("EndRound"));
+            Comment.DoComment(fight.Fighters[0], fight.Fighters[1], endRoundComment, fight, fight.PBP);
+            ColorComments.MakeEndRoundComment(fight);
 
             if (!fight.Attributes.BoutFinished)
             {
-                BetweenRoundComments();
+                ColorComments.BetweenRoundComments(fight);
             }
 
         }
@@ -28,7 +67,7 @@ namespace MMALigaSumulation.Shared.FightEngine.RoundUtils
 
             for (int index = 1; index <= numberJudges; index++)
             {
-                var judgeResult = judge.JudgeFightRoundWise(fight.Fighters[0], fight.Fighters[1], fight.CurrentRound);
+                var judgeResult = JudgeActions.JudgeFightRoundWise(fight.Fighters[0], fight.Fighters[1], fight.CurrentRound);
 
                 if (judgeResult.Winner == 0)
                 {
@@ -80,6 +119,16 @@ namespace MMALigaSumulation.Shared.FightEngine.RoundUtils
             }
 
         }
+
+        public static void TournamentTieExtraRound(Fight fight)
+        {
+       
+            fight.Attributes.FinishedType = "N/A";
+            fight.Attributes.FinishMode = -1;
+            fight.NumberRounds = fight.GetMaxRounds() + 1;
+            fight.Attributes.BoutFinished = false;
+        }
+
 
     }
 }
