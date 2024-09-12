@@ -2,6 +2,7 @@
 using MMALigaSumulation.Shared.FightEngine.Constants;
 using MMALigaSumulation.Shared.FightEngine.RoundUtils;
 using MMALigaSumulation.Shared.FightEngine.Utils;
+using System.Reflection.Emit;
 
 namespace MMALigaSumulation.Shared.Fights
 {
@@ -50,6 +51,69 @@ namespace MMALigaSumulation.Shared.Fights
                     return;
                 }
             }
+
+            // Aumentar tempo no chão para lutadores
+            if (fight.Fighters[0].FightAttributes.OnTheGround)
+            {
+                fight.UpdateTimeOnGround(0, timeInc);
+            }
+            if (fight.Fighters[1].FightAttributes.OnTheGround)
+            {
+                fight.UpdateTimeOnGround(1, timeInc);
+            }
+
+            // Atributos temporários
+            bool TempInTheClinch = fight.Attributes.InTheClinch;
+            bool Fighter1OnTheGround = fight.Fighters[0].FightAttributes.OnTheGround;
+            bool Fighter2OnTheGround = fight.Fighters[1].FightAttributes.OnTheGround;
+        
+            if (fight.CurrentTime % 5 == 0)
+            {
+               DoComment(fight.Fighters[0], fight.Fighters[1],
+                        $"The clock says {TimeUtils.GetTime(fight.CurrentTime)} in the {fight.CurrentRound} round");
+            }
+           
+
+            var FighterAction1 = GetFighterAction(fight.Fighters[0], fight.Fighters[1]);
+            var FighterAction2 = GetFighterAction(fight.Fighters[1], fight.Fighters[0]);
+
+            // Verifica iniciativa se ambos estão atordoados
+            if (fight.Fighters[0].FightAttributes.Dazed == fight.Fighters[1].FightAttributes.Dazed)
+            {
+                if (!fight.Fighters[0].FightAttributes.OnTheGround && !fight.Fighters[1].FightAttributes.OnTheGround)
+                {
+                    FighterActive = GetStandUpInitiative(fight.Fighters[0], fight.Fighters[1],
+                        GetActionBonus(FighterAction1), GetActionBonus(FighterAction2));
+                }
+                else
+                {
+                    FighterActive = GetGroundInitiative(Fighters[0], Fighters[1],
+                        GetActionBonus(FighterAction1), GetActionBonus(FighterAction2));
+                }
+            }
+            // Se não, o que está atordoado concede a iniciativa
+            else
+            {
+                FighterActive = fight.Fighters[0].FightAttributes.Dazed ? 1 : 0;
+            }
+
+            int FighterPassive;
+            var FighterAction = FighterActive == 1 ? FighterAction2 : FighterAction1;
+            FighterPassive = FighterActive == 1 ? 0 : 1;
+
+            // Atualizar estatísticas de iniciativas vencidas
+            fight.Statistics[FighterActive].InisWon += 1;
+
+            MakeColorComments(Fighters[FighterActive], fight.Fighters[FighterPassive]);
+
+            if (CheckPunchesExchange(fight.Fighters[FighterActive], fight.Fighters[FighterPassive]))
+            {
+                FighterAction = ACT_PUNCHEXCHANGE;
+            }
+
+            bool F1Ground = fight.Fighters[FighterActive].FightAttributes.OnTheGround;
+            bool F2Ground = fight.Fighters[FighterPassive].FightAttributes.OnTheGround;
+
 
         }
 
